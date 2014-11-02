@@ -9,6 +9,25 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.0/css/bootstrap.min.css">
     <script src="app.js"></script>
+    <script type="text/template" id="result-template">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Rating</th>
+                    <th>Distance</th>
+                </tr>
+                <%= content %>
+            </thead>
+        </table>
+    </script>
+    <script type="text/template" id="result-row-template">
+        <tr>
+            <td><%= name %></td>
+            <td><%= rating %></td>
+            <td><%= distance %></td>
+        </tr>
+    </script>
 </head>
 
 <body>

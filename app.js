@@ -3,8 +3,6 @@ var Restaurant = Backbone.Model.extend();
 var Restaurants = Backbone.Collection.extend({
     model: Restaurant,
 
-    url: "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20local.search%20where%20zip%3D'94085'%20and%20query%3D'sushi'&diagnostics=true",
-
     initialize: function() {
         this.comparatorMap = {
             'rating': function(restaurant) {
@@ -58,9 +56,12 @@ var RestaurantView = Backbone.View.extend({
     tagName: "li",
     className: "restaurant",
     render: function() {
-        this.$el.html(this.model.get('title'));
-        this.$el.html(this.model.get('rating'));
-        this.$el.html(this.model.get('distance'));
+        var template = _.template($('#result-row-template').html());
+        this.$el.html(template({
+            name: this.model.get('title'),
+            rating: this.model.get('rating'),
+            distance: this.model.get('distance')
+        }));
         return this;
     }
 });
@@ -82,10 +83,13 @@ var RestaurantCollectionView = Backbone.View.extend({
 
     render: function() {
         var that = this;
+        var template = _.template($('#result-template').html());
         $(this.el).empty();
+        var rows = [];
         _(this.views).each(function(view) {
-            $(that.el).append(view.render().el);
+            rows += view.render().el.innerHTML;
         });
+        $(that.el).append(template({content: rows}));
         return this;
     }
 });
