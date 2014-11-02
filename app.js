@@ -5,6 +5,24 @@ var Restaurants = Backbone.Collection.extend({
 
     url: "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20local.search%20where%20zip%3D'94085'%20and%20query%3D'sushi'&diagnostics=true",
 
+    initialize: function() {
+        this.comparatorMap = {
+            'rating': function(restaurant) {
+                if (restaurant.get('rating') == 'NaN')
+                    return -1;
+                return -restaurant.get('rating');
+            },
+            'distance': function(restaurant) {
+                return parseFloat(restaurant.get('distance'));
+            }
+        }
+    },
+
+    setSortStrategy: function(field) {
+        this.comparator = this.comparatorMap[field];
+    },
+
+
     setQuery: function(query) {
         var urlBase = "https://query.yahooapis.com/v1/public/yql?q=";
         var url = urlBase + encodeURIComponent(query);
@@ -20,7 +38,8 @@ var Restaurants = Backbone.Collection.extend({
                 city: $(this).find('City').text(),
                 state: $(this).find('State').text(),
                 phone: $(this).find('Phone').text(),
-                rating: $(this).find('Rating').find('AverageRating').text()
+                rating: $(this).find('Rating').find('AverageRating').text(),
+                distance: $(this).find('Distance').text()
             });
         });
         return restaurants;
@@ -31,6 +50,8 @@ var Restaurants = Backbone.Collection.extend({
         options.dataType = "xml";
         return Backbone.Collection.prototype.fetch.call(this, options);
     }
+
+
 });
 
 var RestaurantView = Backbone.View.extend({
@@ -38,6 +59,8 @@ var RestaurantView = Backbone.View.extend({
     className: "restaurant",
     render: function() {
         this.$el.html(this.model.get('title'));
+        this.$el.html(this.model.get('rating'));
+        this.$el.html(this.model.get('distance'));
         return this;
     }
 });
@@ -65,8 +88,6 @@ var RestaurantCollectionView = Backbone.View.extend({
         });
         return this;
     }
-
-
 });
 
 var Query = Backbone.Model.extend({
@@ -94,6 +115,7 @@ $(document).ready(function() {
         });
         restaurants.setQuery(query.render());
         console.log(restaurants.url);
+        restaurants.setSortStrategy('distance');
         restaurants.fetch({
             success: function() {
                 var resultsView = new RestaurantCollectionView({
