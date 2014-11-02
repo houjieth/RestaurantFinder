@@ -31,9 +31,15 @@
 </head>
 
 <body>
-<input id="city-input" type="text" placeholder="City">
-<input id="zip-input" type="text" placeholder="Zip" value="94040">
-<input id="type-input" type="text" placeholder="Food type" value="sushi">
+<input id="city-input" type="text" class="form-control" placeholder="City">
+<input id="zip-input" type="text" class="form-control" placeholder="Zip" value="94040">
+<input id="type-input" type="text" class="form-control" placeholder="Food type" value="sushi">
+<div class="btn-group">
+    <a id="sort-option" class="btn dropdown-toggle" data-toggle="dropdown" href="#">Sort options<span class="caret"></span></a>
+    <ul class="dropdown-menu">
+        <li><a href="#">Sort by rating</a></li><li><a href="#">Sort by distance</a></li>
+    </ul>
+</div>
 <button class="btn btn-primary" id="search-button">Search</button>
 <div id="results"></div>
 

@@ -119,7 +119,11 @@ $(document).ready(function() {
         });
         restaurants.setQuery(query.render());
         console.log(restaurants.url);
-        restaurants.setSortStrategy('distance');
+        var sortOption = $('#sort-option').text();
+        if (sortOption == 'Sort by rating')
+            restaurants.setSortStrategy('rating');
+        else if (sortOption == 'Sort by distance')
+            restaurants.setSortStrategy('distance');
         restaurants.fetch({
             success: function() {
                 var resultsView = new RestaurantCollectionView({
@@ -128,5 +132,9 @@ $(document).ready(function() {
                 resultsView.render();
             }
         });
+    });
+    $(".dropdown-menu li a").click(function(){
+        var selText = $(this).text();
+        $(this).parents('.btn-group').find('.dropdown-toggle').html(selText+'<span class="caret"></span>');
     });
 });
