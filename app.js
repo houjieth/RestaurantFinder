@@ -5,11 +5,15 @@ var Restaurants = Backbone.Collection.extend({
 
     url: "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20local.search%20where%20zip%3D'94085'%20and%20query%3D'sushi'&diagnostics=true",
 
+    setQuery: function(query) {
+        var urlBase = "https://query.yahooapis.com/v1/public/yql?q=";
+        var url = urlBase + encodeURIComponent(query);
+        this.url = url;
+    },
+
     parse: function(data) {
-        console.log(data);
         var restaurants = [];
         $(data).find('Result').each(function(index) {
-            console.log($(this).find('Title').text());
             restaurants.push({
                 title: $(this).find('Title').text(),
                 address: $(this).find('Address').text(),
@@ -61,13 +65,21 @@ var RestaurantCollectionView = Backbone.View.extend({
         });
         return this;
     }
+
+
 });
 
 var Query = Backbone.Model.extend({
-    renderUrl: function() {
-        var output = [];
+    render: function() {
+        var query = "";
+        query += "select * from local.search(20) where ";
+        if(this.get('city'))
+            query += "location='" + this.get('city') + "' ";
         if(this.get('zip'))
-            output.push(this.get('zip'));
+            query += "zip='" + this.get('zip') + "' ";
+        if(this.get('type'))
+            query += "and query='" + this.get('type') + "' ";
+        return query;
     }
 });
 
@@ -76,9 +88,12 @@ var restaurants = new Restaurants();
 $(document).ready(function() {
     $('#search-button').click(function() {
         var query = new Query({
-            zip: "12345"
+            city: $('#city-input').val(),
+            zip: $('#zip-input').val(),
+            type: $('#type-input').val()
         });
-        query.render();
+        restaurants.setQuery(query.render());
+        console.log(restaurants.url);
         restaurants.fetch({
             success: function() {
                 var resultsView = new RestaurantCollectionView({
