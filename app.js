@@ -20,7 +20,6 @@ var Restaurants = Backbone.Collection.extend({
         this.comparator = this.comparatorMap[field];
     },
 
-
     setQuery: function(query) {
         var urlBase = "https://query.yahooapis.com/v1/public/yql?q=";
         var url = urlBase + encodeURIComponent(query);
@@ -49,8 +48,6 @@ var Restaurants = Backbone.Collection.extend({
         options.dataType = "xml";
         return Backbone.Collection.prototype.fetch.call(this, options);
     }
-
-
 });
 
 var RestaurantView = Backbone.View.extend({
