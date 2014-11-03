@@ -6,14 +6,13 @@
     padding: 15px;
 }
 
-#city-input {
+#city-input,#zip-input,#lat-input,#log-input {
     width: 10%;
     float: left;
     margin: 5px;
 }
 
-#zip-input {
-    width: 10%;
+#locate-button {
     float: left;
     margin: 5px;
 }

@@ -37,7 +37,8 @@ var Restaurants = Backbone.Collection.extend({
                 state: $(this).find('State').text(),
                 phone: $(this).find('Phone').text(),
                 rating: $(this).find('Rating').find('AverageRating').text(),
-                distance: $(this).find('Distance').text()
+                distance: $(this).find('Distance').text(),
+                url: $(this).find('Url').text()
             });
         });
         return restaurants;
@@ -60,7 +61,10 @@ var RestaurantView = Backbone.View.extend({
         this.$el.html(template({
             name: this.model.get('title'),
             rating: this.model.get('rating'),
-            distance: this.model.get('distance')
+            distance: this.model.get('distance'),
+            address: this.model.get('address'),
+            phone: this.model.get('phone'),
+            url: this.model.get('url')
         }));
         return this;
     }
@@ -97,13 +101,17 @@ var RestaurantCollectionView = Backbone.View.extend({
 var Query = Backbone.Model.extend({
     render: function() {
         var query = "";
-        query += "select * from local.search(20) where ";
-        if(this.get('city'))
-            query += "location='" + this.get('city') + "' ";
-        if(this.get('zip'))
-            query += "zip='" + this.get('zip') + "' ";
+        query += "select * from local.search(50) where ";
         if(this.get('type'))
-            query += "and query='" + this.get('type') + "' ";
+            query += "query='" + this.get('type') + "' ";
+        if(this.get('city'))
+            query += "and location='" + this.get('city') + "' ";
+        if(this.get('zip'))
+            query += "and zip='" + this.get('zip') + "' ";
+        if(this.get('lat'))
+            query += "and latitude='" + this.get('lat') + "' ";
+        if(this.get('log'))
+            query += "and longitude='" + this.get('log') + "' ";
         return query;
     }
 });
@@ -115,7 +123,9 @@ $(document).ready(function() {
         var query = new Query({
             city: $('#city-input').val(),
             zip: $('#zip-input').val(),
-            type: $('#type-input').val()
+            type: $('#type-input').val(),
+            lat: $('#lat-input').val(),
+            log: $('#log-input').val()
         });
         restaurants.setQuery(query.render());
         var sortOption = $('#sort-option').text();
@@ -132,12 +142,19 @@ $(document).ready(function() {
             }
         });
     });
-    $("#sort-option-dropdown.dropdown-menu li a").click(function(){
+    $('#sort-option-dropdown.dropdown-menu li a').click(function(){
         var selText = $(this).text();
         $(this).parents('.btn-group').find('.dropdown-toggle').html(selText+'<span class="caret"></span>');
     });
-    $("#type-option-dropdown.dropdown-menu li a").click(function(){
+    $('#type-option-dropdown.dropdown-menu li a').click(function(){
         var selText = $(this).text();
         $('#type-input').val(selText);
     });
+    $('#locate-button').click(function() {
+        function fillLocation(position) {
+            $('#lat-input').val(position.coords.latitude);
+            $('#log-input').val(position.coords.longitude);
+        }
+        navigator.geolocation.getCurrentPosition(fillLocation);
+    })
 });

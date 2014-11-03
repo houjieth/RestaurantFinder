@@ -17,6 +17,8 @@
                     <th>Name</th>
                     <th>Rating</th>
                     <th>Distance</th>
+                    <th>Address</th>
+                    <th>Phone</th>
                 </tr>
                 <%= content %>
             </thead>
@@ -24,9 +26,11 @@
     </script>
     <script type="text/template" id="result-row-template">
         <tr>
-            <td><%= name %></td>
+            <td><a href="<%= url %>"><%= name %></a></td>
             <td><%= rating %></td>
             <td><%= distance %></td>
+            <td><%= address %></td>
+            <td><%= phone %></td>
         </tr>
     </script>
 </head>
@@ -34,7 +38,10 @@
 <body>
 <div class="main-area">
     <input id="city-input" type="text" class="" placeholder="City">
-    <input id="zip-input" type="text" class="" placeholder="Zip" value="94040">
+    <input id="zip-input" type="text" class="" placeholder="Zip">
+    <input id="lat-input" type="text" class="" placeholder="Latitude">
+    <input id="log-input" type="text" class="" placeholder="Logitude">
+    <button id="locate-button" class="btn btn-success btn-xs">Locate me</button>
     <div class="input-append btn-group">
         <input id="type-input" type="text" placeholder="Food type">
         <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
@@ -42,6 +49,8 @@
         </a>
         <ul id="type-option-dropdown" class="dropdown-menu">
             <li><a href="#">Pizza</a></li>
+            <li><a href="#">Tapas</a></li>
+            <li><a href="#">Italian</a></li>
             <li><a href="#">Burger</a></li>
             <li><a href="#">Taco</a></li>
             <li><a href="#">Sushi</a></li>
