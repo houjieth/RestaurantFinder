@@ -1,0 +1,35 @@
+.input-append .btn.dropdown-toggle {
+    float: none;
+}
+
+.main-area {
+    padding: 15px;
+}
+
+#city-input {
+    width: 10%;
+    float: left;
+    margin: 5px;
+}
+
+#zip-input {
+    width: 10%;
+    float: left;
+    margin: 5px;
+}
+
+.btn-group {
+    width: 10%;
+    float: left;
+    margin: 5px;
+    position: relative;
+    top: -3px;
+}
+
+.btn-group.input-append {
+    width: 15%;
+    float: left;
+    margin: 5px;
+    position: relative;
+    top: -3px;
+}

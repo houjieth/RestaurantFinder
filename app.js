@@ -118,7 +118,6 @@ $(document).ready(function() {
             type: $('#type-input').val()
         });
         restaurants.setQuery(query.render());
-        console.log(restaurants.url);
         var sortOption = $('#sort-option').text();
         if (sortOption == 'Sort by rating')
             restaurants.setSortStrategy('rating');
@@ -133,8 +132,12 @@ $(document).ready(function() {
             }
         });
     });
-    $(".dropdown-menu li a").click(function(){
+    $("#sort-option-dropdown.dropdown-menu li a").click(function(){
         var selText = $(this).text();
         $(this).parents('.btn-group').find('.dropdown-toggle').html(selText+'<span class="caret"></span>');
+    });
+    $("#type-option-dropdown.dropdown-menu li a").click(function(){
+        var selText = $(this).text();
+        $('#type-input').val(selText);
     });
 });

@@ -8,6 +8,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="app.css">
     <script src="app.js"></script>
     <script type="text/template" id="result-template">
         <table class="table">
@@ -31,18 +32,34 @@
 </head>
 
 <body>
-<input id="city-input" type="text" class="form-control" placeholder="City">
-<input id="zip-input" type="text" class="form-control" placeholder="Zip" value="94040">
-<input id="type-input" type="text" class="form-control" placeholder="Food type" value="sushi">
-<div class="btn-group">
-    <a id="sort-option" class="btn dropdown-toggle" data-toggle="dropdown" href="#">Sort options<span class="caret"></span></a>
-    <ul class="dropdown-menu">
-        <li><a href="#">Sort by rating</a></li><li><a href="#">Sort by distance</a></li>
-    </ul>
+<div class="main-area">
+    <input id="city-input" type="text" class="" placeholder="City">
+    <input id="zip-input" type="text" class="" placeholder="Zip" value="94040">
+    <div class="input-append btn-group">
+        <input id="type-input" type="text" placeholder="Food type">
+        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+            <span class="caret"></span>
+        </a>
+        <ul id="type-option-dropdown" class="dropdown-menu">
+            <li><a href="#">Pizza</a></li>
+            <li><a href="#">Burger</a></li>
+            <li><a href="#">Taco</a></li>
+            <li><a href="#">Sushi</a></li>
+            <li><a href="#">Pho</a></li>
+            <li><a href="#">Thai</a></li>
+            <li><a href="#">Chinese</a></li>
+            <li><a href="#">Korean</a></li>
+        </ul>
+    </div>
+    <div class="btn-group">
+        <a id="sort-option" class="btn dropdown-toggle" data-toggle="dropdown" href="#">Sort options<span class="caret"></span></a>
+        <ul id="sort-option-dropdown" class="dropdown-menu">
+            <li><a href="#">Sort by rating</a></li><li><a href="#">Sort by distance</a></li>
+        </ul>
+    </div>
+    <button class="btn btn-primary" id="search-button">Search</button>
+    <div id="results"></div>
 </div>
-<button class="btn btn-primary" id="search-button">Search</button>
-<div id="results"></div>
-
 </body>
 
 </html>
